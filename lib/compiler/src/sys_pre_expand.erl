@@ -114,7 +114,7 @@ expand_pmod(Fs0, St0) ->
 	    St1 = St0#expand{exports=Xs, defined=Ds},
 	    {Fs2,St2} = add_instance(Ps, Fs1, St1),
 	    {Fs3,St3} = ensure_new(Base, Ps0, Fs2, St2),
-            {Fs3,St3#expand{attributes = [{abstract, [true]}
+            {Fs3,St3#expand{attributes = [{abstract, 0, [true]}
 					  | St3#expand.attributes]}}
     end.
 
