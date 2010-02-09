@@ -186,7 +186,7 @@ options(Option) ->
 options([{format, Format} | L], Opts) when Format =:= binary; 
                                            Format =:= term;
                                            is_function(Format),
-					   is_function(Format, 1) ->
+                                           is_function(Format, 1) ->
     options(L, Opts#opts{format = Format});
 options([{format, binary_term} | L], Opts) ->
     options(L, Opts#opts{format = binary_term_fun()});

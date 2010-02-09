@@ -574,10 +574,10 @@ options(Options0, [Key | Keys], L) when is_list(Options0) ->
             {max_list_size, Max} when is_integer(Max), Max >= 0 ->
                 {ok, Max};
             {tmpdir_usage, TmpUsage} when TmpUsage =:= allowed;
-					  TmpUsage =:= not_allowed;
-					  TmpUsage =:= info_msg;
-					  TmpUsage =:= warning_msg;
-					  TmpUsage =:= error_msg ->
+                                          TmpUsage =:= not_allowed;
+                                          TmpUsage =:= info_msg;
+                                          TmpUsage =:= warning_msg;
+                                          TmpUsage =:= error_msg ->
                 {ok, TmpUsage};
             {unique, Unique} when is_boolean(Unique) ->
                 {ok, Unique};
@@ -590,7 +590,7 @@ options(Options0, [Key | Keys], L) when is_list(Options0) ->
             {unique_all, UniqueAll} when is_boolean(UniqueAll) ->
                 {ok, UniqueAll};
             {cache_all, CacheAll} when is_boolean(CacheAll);
-				       CacheAll =:= list ->
+                                       CacheAll =:= list ->
                 {ok, CacheAll};
             {cache_all, ets} ->
                 {ok, true};
@@ -612,7 +612,7 @@ options(Options0, [Key | Keys], L) when is_list(Options0) ->
                                   Format =:= debug ->
                 {ok, Format};
             {n_elements, NElements} when NElements =:= infinity;
-	                                 is_integer(NElements),
+                                         is_integer(NElements),
                                          NElements > 0 ->
                 {ok, NElements};
             {depth, Depth} when Depth =:= infinity;
@@ -1492,7 +1492,7 @@ pos_fun('==', QOpt, QNum) ->
 
 prep_gen(#qlc_table{lu_vals = LuV0, ms = MS0, trav_MS = TravMS,
                     info_fun = IF, lookup_fun = LU_fun,
-		    key_equality = KeyEquality}=LE0, 
+                    key_equality = KeyEquality}=LE0,
          Prep0, PosFun0, {MS, Fs}, Opt) ->
     PosFun = PosFun0(KeyEquality),
     {LuV, {STag,SkipFils}} = find_const_positions(IF, LU_fun, PosFun, Opt),
