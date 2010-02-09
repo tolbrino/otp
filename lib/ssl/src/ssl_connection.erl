@@ -1405,24 +1405,24 @@ encode_handshake(HandshakeRec, SigAlg, Version, ConnectionStates0, Hashes0) ->
         ssl_record:encode_handshake(Frag, Version, ConnectionStates0),
     {E, ConnectionStates1, Hashes1}.
 
-encode_packet(Data, #socket_options { packet = Packet }) ->
-  case Packet of
-  0 ->
-    Data;
-  1 ->
-    encode_size_packet(Data, 8);
-  2 ->
-    encode_size_packet(Data, 16);
-  4 ->
-    encode_size_packet(Data, 32);
-  _ ->
-    throw({badarg, {packet, Packet}})
-  end.
+encode_packet(Data, #socket_options{packet=Packet}) ->
+    case Packet of
+	0 ->
+	    Data;
+	1 ->
+	    encode_size_packet(Data, 8);
+	2 ->
+	    encode_size_packet(Data, 16);
+	4 ->
+	    encode_size_packet(Data, 32);
+	_ ->
+	    throw({badarg, {packet, Packet}})
+    end.
 
 encode_size_packet(Data, Size) ->
-  Bin = iolist_to_binary(Data),
-  Len = size(Bin),
-  <<Len:Size/integer, Bin/binary>>.
+    Bin = iolist_to_binary(Data),
+    Len = byte_size(Bin),
+    <<Len:Size/integer, Bin/binary>>.
 
 encode_data(Data, Version, ConnectionStates) ->
     ssl_record:encode_data(Data, Version, ConnectionStates).
