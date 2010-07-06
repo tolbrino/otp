@@ -143,7 +143,7 @@ start_link(Host, Name, Args) ->
     start(Host, Name, Args, self()).
 
 start(Host0, Name, Args, LinkTo) ->
-    Prog = lib:progname(),
+    Prog = "erl",
     start(Host0, Name, Args, LinkTo, Prog).
 
 start(Host0, Name, Args, LinkTo, Prog) ->
