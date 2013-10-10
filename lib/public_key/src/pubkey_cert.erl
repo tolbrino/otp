@@ -259,11 +259,20 @@ is_issuer({rdnSequence, _} = Issuer, {rdnSequence, _} = Candidate) ->
 issuer_id(Otpcert, other) ->
     TBSCert = Otpcert#'OTPCertificate'.tbsCertificate,
     Extensions = extensions_list(TBSCert#'OTPTBSCertificate'.extensions),
-    case select_extension(?'id-ce-authorityKeyIdentifier', Extensions) of
+    Res = case select_extension(?'id-ce-authorityKeyIdentifier', Extensions) of
 	undefined ->
 	    {error, issuer_not_found};
 	AuthKeyExt ->
 	    cert_auth_key_id(AuthKeyExt#'Extension'.extnValue)
+    end,
+    case Res of
+	{error, issuer_not_found} ->
+	    %% fallback to the issuer field
+	    Issuer = TBSCert#'OTPTBSCertificate'.issuer,
+	    SerialNr = TBSCert#'OTPTBSCertificate'.serialNumber,
+	    {ok, {SerialNr, normalize_general_name(Issuer)}};
+	_ ->
+	    Res
     end;
 	
 issuer_id(Otpcert, self) ->
@@ -319,6 +328,8 @@ verify_fun(Otpcert, Result, UserState0, VerifyFun) ->
 %%
 %% Description: Extracts a specific extension from a list of extensions.
 %%--------------------------------------------------------------------
+select_extension(_, asn1_NOVALUE) ->
+    undefined;
 select_extension(_, []) ->
     undefined;
 select_extension(Id, [#'Extension'{extnID = Id} = Extension | _]) ->
@@ -341,8 +352,8 @@ match_name(uniformResourceIdentifier, URI,  [PermittedName | Rest]) ->
     case split_uri(URI) of
 	incomplete ->
 	    false;
-	{_, _, Host, _, _} ->
-	    match_name(fun is_valid_host_or_domain/2, Host,
+	{_, _, _Host, _, _} ->
+	    match_name(fun is_valid_host_or_domain/2, URI,
 		       PermittedName, Rest)
     end;
 
