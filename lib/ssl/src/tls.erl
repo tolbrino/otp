@@ -664,7 +664,8 @@ handle_options(Opts0, _Role) ->
       next_protocol_selector = 
 			make_next_protocol_selector(
 			  handle_option(client_preferred_next_protocols, Opts, undefined)),
-      log_alert = handle_option(log_alert, Opts, true)
+      log_alert = handle_option(log_alert, Opts, true),
+      honor_cipher_order = handle_option(honor_cipher_order, Opts, false)
      },
 
     CbInfo  = proplists:get_value(cb_info, Opts, {gen_tcp, tcp, tcp_closed, tcp_error}),    
@@ -676,7 +677,7 @@ handle_options(Opts0, _Role) ->
 		  reuse_session, reuse_sessions, ssl_imp,
 		  cb_info, renegotiate_at, secure_renegotiate, hibernate_after, 
 		  erl_dist, next_protocols_advertised,
-		  client_preferred_next_protocols, log_alert],
+		  client_preferred_next_protocols, log_alert, honor_cipher_order],
     
     SockOpts = lists:foldl(fun(Key, PropList) -> 
 				   proplists:delete(Key, PropList)
@@ -855,6 +856,9 @@ validate_option(next_protocols_advertised = Opt, Value) when is_list(Value) ->
 
 validate_option(next_protocols_advertised, undefined) ->
     undefined;
+validate_option(honor_cipher_order, Value) when Value == true;
+						Value == false ->
+    Value;
 validate_option(Opt, Value) ->
     throw({error, {options, {Opt, Value}}}).
 

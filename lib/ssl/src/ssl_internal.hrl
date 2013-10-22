@@ -115,7 +115,10 @@
 	  erl_dist = false,
 	  next_protocols_advertised = undefined, %% [binary()],
 	  next_protocol_selector = undefined,  %% fun([binary()]) -> binary())
-	  log_alert
+	  log_alert,
+	  %% Should the server prefer its own cipher order over the one provided by
+	  %% the client?
+	  honor_cipher_order = false
 	  }).
 
 -record(socket_options,
