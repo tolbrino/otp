@@ -1,4 +1,4 @@
-# 
+#
 # %CopyrightBegin%
 #
 # Copyright Ericsson AB 1997-2013. All Rights Reserved.
@@ -15,10 +15,10 @@
 # under the License.
 #
 # %CopyrightEnd%
-# 
+#
 
 VSN = 5.10.3
-SYSTEM_VSN = R16B02
+SYSTEM_VSN = R16B02-basho1
 
 # Port number 4365 in 4.2
 # Port number 4366 in 4.3
