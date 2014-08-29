@@ -21,7 +21,7 @@ include $(ERL_TOP)/make/output.mk
 include $(ERL_TOP)/make/target.mk
 include ../include/internal/$(TARGET)/ethread.mk
 
-OMIT_OMIT_FP=no
+OMIT_OMIT_FP=yes
 
 
 CC=@CC@
